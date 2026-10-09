@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Cache-Control" content="no-store, max-age=0">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; base-uri 'none'; form-action 'none'; object-src 'none'">
+  <meta name="theme-color" content="#090910">
+  <title>HIT HOT Publisher — TikTok Authorization</title>
+  <style>
+    :root { color-scheme: dark; --ink:#fff; --muted:#bab6c7; --pink:#ff2e5f; --aqua:#27dbdf; --bg:#090910; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; font: 16px/1.5 system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+      background: radial-gradient(ellipse at 85% 5%, #50142a 0, transparent 47%), radial-gradient(ellipse at 10% 92%, #07373d 0, transparent 42%), var(--bg); color:var(--ink); }
+    .shell { max-width: 680px; margin: auto; padding: 32px 24px 56px; }
+    header { display: flex; align-items: center; gap: 13px; margin-bottom: 92px; }
+    .logo { display:grid; place-items:center; width:46px; height:46px; border-radius:13px; background:var(--pink); box-shadow:4px 4px 0 var(--aqua); font-weight:900; font-size:24px; }
+    .wordmark { font-size:24px; font-weight:900; letter-spacing:-.04em; line-height:1.0; }
+    .wordmark small { display:block; font-size:10px; letter-spacing:.19em; color:var(--muted); margin-top:8px; font-weight:750; }
+    .eyebrow { color:var(--aqua); font-size:12px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; }
+    h1 { font-size:clamp(36px,7vw,55px); line-height:1.1; letter-spacing:-.055em; margin:13px 0 20px; }
+    p { color:var(--muted); margin:0 0 16px; }
+    .card { border:1px solid #36323f; padding:25px; border-radius:18px; background:rgba(255,255,255,.04); margin-top:30px; }
+    .status { color:var(--aqua); font-size:14px; font-weight:800; margin-bottom:10px; }
+    .status.error { color:#ff8294; }
+    .button { display:inline-flex; align-items:center; justify-content:center; padding:13px 18px; border:0; border-radius:11px; color:white; background:var(--pink); font:700 15px/1.25 inherit; font-weight:800; cursor:pointer; min-height:45px; margin:6px 8px 6px 0; }
+    .secondary { border:1px solid #615765; background:#28232e; }
+    .button:focus-visible, a:focus-visible { outline:3px solid var(--aqua); outline-offset:3px; }
+    .small { font-size:13px; }
+    .notice { margin-top:18px; border-left:3px solid var(--pink); padding-left:15px; }
+    .notice p { margin:0; }
+    .details { margin-top:18px; display:none; }
+    .details[aria-hidden="false"] { display:block; }
+    .details label { display:block; margin-bottom:6px; color:#ebe6f1; font-size:13px; font-weight:800; }
+    textarea { width:100%; min-height:110px; resize:vertical; border:1px solid #514859; border-radius:11px; background:#100f19; color:#fff; padding:12px; font:12px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace; overflow-wrap:anywhere; }
+    .msg { font-size:13px; min-height:20px; margin-top:8px; color:var(--aqua); }
+    footer { padding-top:48px; font-size:13px; color:var(--muted); }
+    footer a { color:inherit; margin-right:19px; }
+    @media(max-width:500px) { header {margin-bottom:56px;} .card { padding:18px; } }
+  </style>
+  <script>
+    // Capture the one-time response only in this browser tab's memory.
+    // Strip sensitive query parameters from the visible URL immediately.
+    (function () {
+      'use strict';
+      var q = new URLSearchParams(window.location.search);
+      window.hithotOAuthResult = {
+        code: q.get('code') || '',
+        state: q.get('state') || '',
+        scopes: q.get('scopes') || '',
+        error: q.get('error') || '',
+        error_description: q.get('error_description') || ''
+      };
+      if (window.location.search || window.location.hash) {
+        try { window.history.replaceState(null, '', window.location.pathname); } catch (_) { /* No storage or network fallback. */ }
+      }
+    }());
+  </script>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <div class="logo" aria-hidden="true">H</div>
+      <div class="wordmark">HIT HOT<small>PUBLISHER</small></div>
+    </header>
+    <main>
+      <div class="eyebrow">TikTok authorization · Sandbox</div>
+      <h1>Secure account connection.</h1>
+      <p>This page receives a one-time authorization response from TikTok. It does not store tokens or send your authorization data to an external service.</p>
+      <section class="card" aria-live="polite">
+        <div class="status" id="status">Checking authorization response…</div>
+        <p id="message">Please wait.</p>
+        <div id="buttons" hidden>
+          <button type="button" class="button" id="copy">Copy one-time response</button>
+          <button type="button" class="button secondary" id="reveal" aria-expanded="false">Show response</button>
+          <div class="details" id="details" aria-hidden="true">
+            <label for="payload">One-time authorization response (keep private)</label>
+            <textarea id="payload" readonly autocomplete="off" autocapitalize="off" spellcheck="false"></textarea>
+          </div>
+          <div class="msg" id="copy-status" role="status"></div>
+        </div>
+        <div class="notice"><p class="small"><strong>Security:</strong> Do not send this response, client secret, or access tokens in chats or screenshots. Copy the response only into your own HIT HOT bot setup in Termux after its local authorization handler is ready. Do not authorize again until that handler is configured.</p></div>
+      </section>
+    </main>
+    <footer><a href="./">Home</a><a href="./privacy.html">Privacy Policy</a><a href="./terms.html">Terms of Service</a></footer>
+  </div>
+  <script>
+    (function () {
+      'use strict';
+      var result = window.hithotOAuthResult || {};
+      var status = document.getElementById('status');
+      var message = document.getElementById('message');
+      var controls = document.getElementById('buttons');
+      var output = document.getElementById('payload');
+      var reveal = document.getElementById('reveal');
+      var details = document.getElementById('details');
+      var feedback = document.getElementById('copy-status');
+      if (result.error) {
+        status.className = 'status error';
+        status.textContent = 'TikTok did not authorize this connection';
+        message.textContent = result.error_description || result.error;
+        return;
+      }
+      if (!result.code) {
+        status.textContent = 'Callback page is ready';
+        message.textContent = 'The page is online. When you authorize HIT HOT Publisher in TikTok, the one-time authorization response will appear here. Do not begin authorization until your Termux handler is configured.';
+        return;
+      }
+      if (!result.state) {
+        status.className = 'status error';
+        status.textContent = 'Missing security state';
+        message.textContent = 'Do not use this response. Restart authorization from the official HIT HOT bot once it is configured.';
+        return;
+      }
+      status.textContent = 'Authorization response received';
+      message.textContent = 'TikTok returned a one-time code. This is not yet a completed connection. Your local bot must verify the state and exchange the code securely for tokens.';
+      controls.hidden = false;
+      var payload = JSON.stringify({code:result.code, state:result.state, scopes:result.scopes});
+      output.value = payload;
+      document.getElementById('copy').addEventListener('click', async function () {
+        try {
+          if (!navigator.clipboard || !navigator.clipboard.writeText) throw new Error('Clipboard unavailable');
+          await navigator.clipboard.writeText(payload);
+          feedback.textContent = 'Copied. Keep it private and paste only into your trusted local bot.';
+        } catch (_) {
+          details.setAttribute('aria-hidden', 'false');
+          reveal.setAttribute('aria-expanded', 'true');
+          reveal.textContent = 'Hide response';
+          output.focus(); output.select();
+          feedback.textContent = 'Select and copy the response manually.';
+        }
+      });
+      reveal.addEventListener('click', function () {
+        var showing = details.getAttribute('aria-hidden') === 'false';
+        details.setAttribute('aria-hidden', String(showing));
+        reveal.setAttribute('aria-expanded', String(!showing));
+        reveal.textContent = showing ? 'Show response' : 'Hide response';
+      });
+    }());
+  </script>
+</body>
+</html>
